@@ -1,0 +1,26 @@
+server:
+  port: 8760
+eureka:
+  instance:
+    hostname: peer   ## 实例名称
+    # Make sure eureka server can detect whether this app is up or down. Add by Zhang Chao.
+    #表示eureka client发送心跳给server端的频率,默认30秒,server端没有收到client的心跳，则将摘除该instance
+    lease-renewal-interval-in-seconds: 8
+    #表示eureka server至上一次收到client的心跳之后,等待下一次心跳的超时时间，在这个时间内若没收到下一次心跳，则将移除该instance。
+    lease-expiration-duration-in-seconds: 8
+  client:
+    fetch-registry: false # 注册中心不向自己注册自己
+    register-with-eureka: false # 表示是否将自己注册到Eureka Server,不去检索服务
+    service-url:
+      # 设置与Eureka Server的地址,查询服务和注册服务都需要依赖这个地址.默认是http://localhost:7001/eureka/;多个地址可使用','风格.
+      defaultZone: http://peer1:8761/eureka/,http://peer2:8762/eureka/
+      
+  server:
+    enable-self-preservation: false # 禁用自我保护模式
+    
+spring:
+#  freemarker:
+#    prefer-file-system-access: false
+  application:
+    name: eureka
+
